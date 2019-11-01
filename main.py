@@ -99,6 +99,7 @@ class MainScreen(Screen):
 
     def toggleArm(self):
         print("Process arm movement here")
+        self.setArmPosition()
 
     def toggleMagnet(self):
         print("Process magnet here")
@@ -106,8 +107,17 @@ class MainScreen(Screen):
     def auto(self):
         print("Run the arm automatically here")
 
-    def setArmPosition(self, position):
+    def setArmPosition(self):
         print("Move arm here")
+        global DOWN
+        if DOWN:
+            cyprus.set_pwm_values(1, period_value=100000, compare_value=100000, compare_mode=cyprus.LESS_THAN_OR_EQUAL)
+            print("robotic arm up")
+            DOWN = False
+        else:
+            cyprus.set_pwm_values(1, period_value=100000, compare_value=0, compare_mode=cyprus.LESS_THAN_OR_EQUAL)
+            print("robotic arm down")
+            DOWN = True
 
     def homeArm(self):
         arm.home(self.homeDirection)
